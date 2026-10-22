@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HostelCare – Student Complaint Portal</title>
+  <meta name="description" content="HostelCare – A student hostel complaint management portal to raise and track maintenance issues." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== APP SHELL ===================== -->
+  <div class="app-shell" id="appShell">
+
+    <!-- ========== PAGE: LOGIN ========== -->
+    <div class="page active" id="pageLogin">
+      <!-- Login Header -->
+      <div class="login-top-bg">
+        <div class="login-brand">
+          <div class="login-brand-avatar">HC</div>
+          <div class="login-brand-text">
+            <span class="login-brand-name">HostelCare</span>
+            <span class="login-brand-tagline">Student Complaint Portal</span>
+          </div>
+        </div>
+        <h1 class="login-hero">Welcome Back 👋</h1>
+        <p class="login-sub">Sign in to manage your hostel complaints</p>
+      </div>
+
+      <!-- Login Card -->
+      <div class="login-card">
+        <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+
+          <!-- Role Selector -->
+          <div class="role-selector">
+            <button type="button" class="role-tab active" id="roleStudent" onclick="selectRole('Student')">Student</button>
+            <button type="button" class="role-tab" id="roleAdmin" onclick="selectRole('Admin')">Admin</button>
+          </div>
+
+          <!-- User ID -->
+          <div class="field-group">
+            <label class="field-label" for="loginId">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Student ID / Email
+            </label>
+            <input class="field-input" type="text" id="loginId" placeholder="e.g. 21CS1045 or student@uni.edu" required autocomplete="username" />
+          </div>
+
+          <!-- Password -->
+          <div class="field-group">
+            <label class="field-label" for="loginPassword">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Password
+            </label>
+            <div class="password-wrapper">
+              <input class="field-input" type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password" />
+              <button type="button" class="eye-btn" id="eyeBtn" onclick="togglePassword()">
+                <svg id="eyeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember + Forgot -->
+          <div class="login-options">
+            <label class="remember-label">
+              <input type="checkbox" id="rememberMe" class="remember-check" />
+              <span>Remember me</span>
+            </label>
+            <button type="button" class="link-btn" onclick="navigateTo('pageForgot')">Forgot password?</button>
+          </div>
+
+          <!-- Login Button -->
+          <button class="btn-primary" type="submit" id="btnLogin">
+            <span class="btn-text">SIGN IN</span>
+            <span class="btn-spinner" id="loginSpinner"></span>
+          </button>
+
+          <!-- Divider -->
+          <div class="login-divider"><span>or continue with</span></div>
+
+          <!-- Demo Credentials -->
+          <button type="button" class="btn-demo" onclick="fillDemo()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Use Demo Credentials
+          </button>
+
+          <p class="login-footer-note">Demo: ID <strong>21CS1045</strong> · Password <strong>hostel123</strong></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: FORGOT PASSWORD ========== -->
+    <div class="page" id="pageForgot">
+      <header class="topbar topbar--inner">
+        <button class="back-btn" onclick="navigateTo('pageLogin')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="topbar-title">Forgot Password</span>
+        <div></div>
+      </header>
+      <div class="page-scroll page-scroll--center">
+        <div class="forgot-icon-wrap">
+          <div class="forgot-icon">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <h2 class="form-title" style="text-align:center;">Reset Password</h2>
+        <p class="greeting-sub" style="text-align:center; margin-bottom:20px;">Enter your registered email and we'll send you a reset link.</p>
+        <form class="complaint-form" style="width:100%;" onsubmit="handleForgot(event)">
+          <div class="field-group">
+            <label class="field-label" for="forgotEmail">Registered Email <span class="req-star">*</span></label>
+            <input class="field-input" type="email" id="forgotEmail" placeholder="student@university.edu" required />
+          </div>
+          <button class="btn-primary" type="submit" id="btnForgot">
+            <span class="btn-text">SEND RESET LINK</span>
+            <span class="btn-spinner" id="forgotSpinner"></span>
+          </button>
+          <button type="button" class="link-btn" onclick="navigateTo('pageLogin')">Back to Sign In</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: ADMIN DASHBOARD ========== -->
+    <div class="page" id="pageAdminDashboard">
+      <header class="topbar topbar--admin">
+        <div class="topbar-brand">
+          <div class="brand-avatar brand-avatar--admin">HC</div>
+          <div class="brand-text">
+            <span class="brand-name">HostelCare</span>
+            <span class="brand-sub">Admin Panel</span>
+          </div>
+        </div>
+        <button class="role-badge role-badge--admin">Admin</button>
+      </header>
+
+      <div class="page-scroll">
+        <!-- Greeting -->
+        <section class="greeting-section">
+          <h1 class="greeting-title">Good morning, Admin! 🛠️</h1>
+          <p class="greeting-sub">Here's today's hostel complaint overview.</p>
+        </section>
+
+        <!-- Admin Stat Cards -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card admin-stat-card--blue">
+            <div class="astat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="astat-number">12</div>
+            <div class="astat-label">Total Complaints</div>
+          </div>
+          <div class="admin-stat-card admin-stat-card--orange">
+            <div class="astat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="astat-number">5</div>
+            <div class="astat-label">Pending Review</div>
+          </div>
+          <div class="admin-stat-card admin-stat-card--purple">
+            <div class="astat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="astat-number">4</div>
+            <div class="astat-label">In Progress</div>
+          </div>
+          <div class="admin-stat-card admin-stat-card--green">
+            <div class="astat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="astat-number">3</div>
+            <div class="astat-label">Resolved</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="admin-section-title">Quick Actions</div>
+        <div class="admin-actions-grid">
+          <button class="admin-action-btn" onclick="navigateTo('pageAdminComplaints')">
+            <div class="aaction-icon aaction-icon--blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <span>Manage Complaints</span>
+          </button>
+          <button class="admin-action-btn" onclick="navigateTo('pageAdminProfile')">
+            <div class="aaction-icon aaction-icon--purple">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <span>Admin Profile</span>
+          </button>
+        </div>
+
+        <!-- Recent Complaints -->
+        <div class="admin-section-header">
+          <span class="admin-section-title">Recent Complaints</span>
+          <button class="view-activity-btn" onclick="navigateTo('pageAdminComplaints')">View all</button>
+        </div>
+
+        <div class="admin-complaint-list">
+          <div class="admin-complaint-row" onclick="navigateTo('pageAdminComplaints')">
+            <div class="acr-left">
+              <div class="acr-id">HC-2024-12345</div>
+              <div class="acr-title">Leaking washbasin tap</div>
+              <div class="acr-meta">Plumbing • A Block • A-205</div>
+            </div>
+            <span class="status-badge status-submitted">Submitted</span>
+          </div>
+          <div class="admin-complaint-row" onclick="navigateTo('pageAdminComplaints')">
+            <div class="acr-left">
+              <div class="acr-id">HC-2024-12344</div>
+              <div class="acr-title">Wi-Fi not connecting</div>
+              <div class="acr-meta">Internet • B Block • B-112</div>
+            </div>
+            <span class="status-badge status-inprogress">In Progress</span>
+          </div>
+          <div class="admin-complaint-row" onclick="navigateTo('pageAdminComplaints')">
+            <div class="acr-left">
+              <div class="acr-id">HC-2024-12340</div>
+              <div class="acr-title">Broken ceiling fan</div>
+              <div class="acr-meta">AC/Fan • C Block • C-308</div>
+            </div>
+            <span class="status-badge status-resolved">Resolved</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Bottom Nav -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" id="adminNavHome" onclick="setActiveAdminNav('adminNavHome'); navigateTo('pageAdminDashboard')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" id="adminNavComplaints" onclick="setActiveAdminNav('adminNavComplaints'); navigateTo('pageAdminComplaints')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Complaints</span>
+        </button>
+        <button class="nav-item" id="adminNavProfile" onclick="setActiveAdminNav('adminNavProfile'); navigateTo('pageAdminProfile')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ========== PAGE: ADMIN COMPLAINTS ========== -->
+    <div class="page" id="pageAdminComplaints">
+      <header class="topbar topbar--admin">
+        <button class="back-btn" onclick="navigateTo('pageAdminDashboard')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="topbar-title">Manage Complaints</span>
+        <div></div>
+      </header>
+
+      <div class="page-scroll">
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+          <button class="filter-tab active" id="filterAll"    onclick="filterComplaints('all')">All (12)</button>
+          <button class="filter-tab"         id="filterNew"    onclick="filterComplaints('new')">New (5)</button>
+          <button class="filter-tab"         id="filterProg"   onclick="filterComplaints('progress')">In Progress (4)</button>
+          <button class="filter-tab"         id="filterDone"   onclick="filterComplaints('done')">Resolved (3)</button>
+        </div>
+
+        <!-- Complaint Cards (Admin View) -->
+        <div id="adminComplaintCards">
+
+          <div class="admin-card" data-status="new">
+            <div class="admin-card-header">
+              <div>
+                <div class="acr-id">HC-2024-12345</div>
+                <div class="acr-title">Leaking washbasin tap</div>
+                <div class="acr-meta">Plumbing • A Block, A-205 • Rahul Sharma</div>
+                <div class="acr-meta">24 Oct 2024 • 09:30 AM</div>
+              </div>
+              <span class="status-badge status-submitted">Submitted</span>
+            </div>
+            <div class="admin-card-desc">The washbasin tap keeps dripping even when fully closed. Please repair it.</div>
+            <div class="admin-card-actions">
+              <button class="admin-action-tag admin-action-tag--blue" onclick="updateStatus(this,'In Progress')">▶ Start Work</button>
+              <button class="admin-action-tag admin-action-tag--green" onclick="updateStatus(this,'Resolved')">✓ Mark Resolved</button>
+            </div>
+          </div>
+
+          <div class="admin-card" data-status="new">
+            <div class="admin-card-header">
+              <div>
+                <div class="acr-id">HC-2024-12344</div>
+                <div class="acr-title">Wi-Fi not connecting</div>
+                <div class="acr-meta">Internet / Wi-Fi • B Block, B-112 • Priya Nair</div>
+                <div class="acr-meta">23 Oct 2024 • 11:15 AM</div>
+              </div>
+              <span class="status-badge status-inprogress">In Progress</span>
+            </div>
+            <div class="admin-card-desc">Wi-Fi drops every 10 minutes, especially after 6 PM. Very disruptive.</div>
+            <div class="admin-card-actions">
+              <button class="admin-action-tag admin-action-tag--green" onclick="updateStatus(this,'Resolved')">✓ Mark Resolved</button>
+              <button class="admin-action-tag admin-action-tag--red" onclick="updateStatus(this,'Rejected')">✕ Reject</button>
+            </div>
+          </div>
+
+          <div class="admin-card" data-status="new">
+            <div class="admin-card-header">
+              <div>
+                <div class="acr-id">HC-2024-12343</div>
+                <div class="acr-title">Power socket not working</div>
+                <div class="acr-meta">Electrical • A Block, A-310 • Arjun Mehta</div>
+                <div class="acr-meta">22 Oct 2024 • 02:00 PM</div>
+              </div>
+              <span class="status-badge status-submitted">Submitted</span>
+            </div>
+            <div class="admin-card-desc">The desk-side power socket stopped working. Can't charge laptop.</div>
+            <div class="admin-card-actions">
+              <button class="admin-action-tag admin-action-tag--blue" onclick="updateStatus(this,'In Progress')">▶ Start Work</button>
+              <button class="admin-action-tag admin-action-tag--green" onclick="updateStatus(this,'Resolved')">✓ Mark Resolved</button>
+            </div>
+          </div>
+
+          <div class="admin-card" data-status="new">
+            <div class="admin-card-header">
+              <div>
+                <div class="acr-id">HC-2024-12342</div>
+                <div class="acr-title">Broken wardrobe door</div>
+                <div class="acr-meta">Furniture • C Block, C-204 • Sneha Patel</div>
+                <div class="acr-meta">21 Oct 2024 • 10:45 AM</div>
+              </div>
+              <span class="status-badge status-submitted">Submitted</span>
+            </div>
+            <div class="admin-card-desc">The wardrobe door hinge is broken and the door falls off.</div>
+            <div class="admin-card-actions">
+              <button class="admin-action-tag admin-action-tag--blue" onclick="updateStatus(this,'In Progress')">▶ Start Work</button>
+              <button class="admin-action-tag admin-action-tag--green" onclick="updateStatus(this,'Resolved')">✓ Mark Resolved</button>
+            </div>
+          </div>
+
+          <div class="admin-card" data-status="done">
+            <div class="admin-card-header">
+              <div>
+                <div class="acr-id">HC-2024-11980</div>
+                <div class="acr-title">Fan not working in room</div>
+                <div class="acr-meta">AC / Fan • A Block, A-205 • Rahul Sharma</div>
+                <div class="acr-meta">10 Oct 2024 • 08:00 AM</div>
+              </div>
+              <span class="status-badge status-resolved">Resolved</span>
+            </div>
+            <div class="admin-card-desc">Ceiling fan stopped working suddenly. Room is very hot.</div>
+            <div class="admin-card-actions">
+              <span class="resolved-tag">✓ Resolved on 12 Oct 2024</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Admin Bottom Nav -->
+      <nav class="bottom-nav">
+        <button class="nav-item" onclick="setActiveAdminNav('adminNavHome'); navigateTo('pageAdminDashboard')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item active">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Complaints</span>
+        </button>
+        <button class="nav-item" onclick="setActiveAdminNav('adminNavProfile'); navigateTo('pageAdminProfile')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ========== PAGE: ADMIN PROFILE ========== -->
+    <div class="page" id="pageAdminProfile">
+      <header class="topbar topbar--admin">
+        <button class="back-btn" onclick="navigateTo('pageAdminDashboard')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="topbar-title">Admin Profile</span>
+        <div></div>
+      </header>
+
+      <div class="page-scroll">
+        <!-- Admin Profile Card -->
+        <div class="profile-card profile-card--admin">
+          <div class="profile-avatar-large profile-avatar-large--admin">AD</div>
+          <div class="profile-name">Admin User</div>
+          <div class="profile-role-tag profile-role-tag--admin">🛠️ Hostel Administrator</div>
+        </div>
+
+        <!-- Admin Info -->
+        <div class="profile-info-list">
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Full Name
+            </span>
+            <span class="profile-info-value">Mr. Suresh Kumar</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              Role
+            </span>
+            <span class="profile-info-value">Hostel Warden</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Department
+            </span>
+            <span class="profile-info-value">Hostel Management</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Manages
+            </span>
+            <span class="profile-info-value">A, B, C, D Blocks</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Email
+            </span>
+            <span class="profile-info-value">admin@university.edu</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.31 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Phone
+            </span>
+            <span class="profile-info-value">+91 94400 11223</span>
+          </div>
+        </div>
+
+        <!-- Admin Stats -->
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-number" style="color:#6741d9;">12</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" style="color:#e67700;">5</span>
+            <span class="stat-label">Pending</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" style="color:#2f9e44;">3</span>
+            <span class="stat-label">Resolved</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" style="color:#3b5bdb;">4</span>
+            <span class="stat-label">Active</span>
+          </div>
+        </div>
+
+        <button class="btn-outline btn-logout" id="btnAdminLogout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+
+      <!-- Admin Bottom Nav -->
+      <nav class="bottom-nav">
+        <button class="nav-item" onclick="setActiveAdminNav('adminNavHome'); navigateTo('pageAdminDashboard')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" onclick="setActiveAdminNav('adminNavComplaints'); navigateTo('pageAdminComplaints')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Complaints</span>
+        </button>
+        <button class="nav-item active">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ========== PAGE: DASHBOARD ========== -->
+    <div class="page" id="pageDashboard">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-brand">
+          <div class="brand-avatar">HC</div>
+          <div class="brand-text">
+            <span class="brand-name">HostelCare</span>
+            <span class="brand-sub">Student dashboard</span>
+          </div>
+        </div>
+        <button class="role-badge">Student</button>
+      </header>
+
+      <!-- Scrollable Content -->
+      <div class="page-scroll">
+        <!-- Greeting -->
+        <section class="greeting-section">
+          <h1 class="greeting-title">Good morning, Student!</h1>
+          <p class="greeting-sub">What would you like to do today?</p>
+        </section>
+
+        <!-- Quick Cards -->
+        <div class="quick-cards">
+          <button class="quick-card" id="btnQuickRaise" onclick="navigateTo('pageRegister')">
+            <div class="qcard-icon qcard-icon--blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+            <span class="qcard-label">Raise Complaint</span>
+            <span class="qcard-desc">Report a hostel issue.</span>
+          </button>
+          <button class="quick-card" id="btnQuickStatus" onclick="navigateTo('pageStatus')">
+            <div class="qcard-icon qcard-icon--green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span class="qcard-label">Complaint Status</span>
+            <span class="qcard-desc">Track submitted complaints.</span>
+          </button>
+        </div>
+
+        <!-- Menu List -->
+        <div class="menu-list">
+          <button class="menu-item" id="menuRaise" onclick="navigateTo('pageRegister')">
+            <div class="menu-icon menu-icon--blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+            <div class="menu-text">
+              <span class="menu-title">Raise Complaint</span>
+              <span class="menu-desc">Report a hostel issue to the maintenance team.</span>
+            </div>
+            <svg class="menu-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+
+          <button class="menu-item" id="menuStatus" onclick="navigateTo('pageStatus')">
+            <div class="menu-icon menu-icon--green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="menu-text">
+              <span class="menu-title">Complaint Status</span>
+              <span class="menu-desc">Track submitted complaints and resolution progress.</span>
+            </div>
+            <svg class="menu-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+
+          <button class="menu-item" id="menuProfile" onclick="navigateTo('pageProfile')">
+            <div class="menu-icon menu-icon--orange">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="menu-text">
+              <span class="menu-title">My Profile</span>
+              <span class="menu-desc">View your registered hostel and contact details.</span>
+            </div>
+            <svg class="menu-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+        <!-- Latest Complaint -->
+        <div class="latest-section">
+          <div class="latest-header">
+            <span class="latest-title">Latest complaint</span>
+            <button class="view-activity-btn" onclick="navigateTo('pageActivity')">View activity</button>
+          </div>
+          <div class="complaint-card" onclick="navigateTo('pageStatus')">
+            <div class="complaint-card-top">
+              <span class="complaint-id">HC-2024-12345</span>
+              <span class="status-badge status-submitted">Submitted</span>
+            </div>
+            <div class="complaint-card-title">Leaking washbasin tap</div>
+            <div class="complaint-card-meta">A Block • A-205 • 24 Oct 2024</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Nav -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" id="navHome" onclick="setActiveNav('navHome'); navigateTo('pageDashboard')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" id="navActivity" onclick="setActiveNav('navActivity'); navigateTo('pageActivity')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Activity</span>
+        </button>
+        <button class="nav-item" id="navProfile" onclick="setActiveNav('navProfile'); navigateTo('pageProfile')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ========== PAGE: REGISTER COMPLAINT ========== -->
+    <div class="page" id="pageRegister">
+      <header class="topbar topbar--inner">
+        <button class="back-btn" onclick="navigateTo('pageDashboard')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="topbar-title">Register Complaint</span>
+        <span class="step-indicator">Step 1 of 1</span>
+      </header>
+
+      <div class="page-scroll">
+        <section class="form-header">
+          <h2 class="form-title">Tell us what needs attention</h2>
+          <p class="form-required">Fields marked <span class="req-star">*</span> are required.</p>
+        </section>
+
+        <form class="complaint-form" id="complaintForm" onsubmit="submitComplaint(event)">
+          <!-- Category -->
+          <div class="field-group">
+            <label class="field-label" for="category">Complaint Category <span class="req-star">*</span></label>
+            <div class="select-wrapper">
+              <select class="field-select" id="category" required>
+                <option value="">Select category</option>
+                <option value="Plumbing" selected>Plumbing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Housekeeping">Housekeeping</option>
+                <option value="Internet / Wi-Fi">Internet / Wi-Fi</option>
+                <option value="AC / Fan">AC / Fan</option>
+                <option value="Other">Other</option>
+              </select>
+              <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+
+          <!-- Block -->
+          <div class="field-group">
+            <label class="field-label" for="block">Hostel Block <span class="req-star">*</span></label>
+            <div class="select-wrapper">
+              <select class="field-select" id="block" required>
+                <option value="">Select block</option>
+                <option value="A Block" selected>A Block</option>
+                <option value="B Block">B Block</option>
+                <option value="C Block">C Block</option>
+                <option value="D Block">D Block</option>
+              </select>
+              <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+
+          <!-- Room -->
+          <div class="field-group">
+            <label class="field-label" for="room">Room Number <span class="req-star">*</span></label>
+            <input class="field-input" type="text" id="room" placeholder="e.g. A-205" value="A-205" required />
+          </div>
+
+          <!-- Description -->
+          <div class="field-group">
+            <label class="field-label" for="description">Complaint Description <span class="req-star">*</span></label>
+            <div class="textarea-wrapper">
+              <textarea class="field-textarea" id="description" maxlength="300" placeholder="Describe the issue in detail..." required oninput="updateCharCount()">The washbasin tap in room A-205 keeps dripping even when fully closed. Please repair it.</textarea>
+              <span class="char-count" id="charCount">88 / 300 characters</span>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn-primary" type="submit" id="btnSubmit">
+            <span class="btn-text">SUBMIT COMPLAINT</span>
+            <span class="btn-spinner" id="btnSpinner"></span>
+          </button>
+          <p class="form-note">By submitting, the complaint will be assigned a unique ID.</p>
+          <button type="button" class="link-btn" onclick="navigateTo('pageIllustrative')">Illustrative complaint details</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: SUBMITTED SUCCESS ========== -->
+    <div class="page" id="pageSubmitted">
+      <header class="topbar topbar--inner topbar--brand">
+        <div class="topbar-brand">
+          <div class="brand-avatar">HC</div>
+          <div class="brand-text">
+            <span class="brand-name">HostelCare</span>
+            <span class="brand-sub">Complaint submitted</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-scroll page-scroll--center">
+        <!-- Success Card -->
+        <div class="success-card">
+          <div class="success-icon-wrap">
+            <div class="success-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <h2 class="success-title">Complaint submitted</h2>
+          <p class="success-desc">Your complaint has been registered and assigned a unique ID.</p>
+        </div>
+
+        <!-- Complaint ID -->
+        <div class="id-section">
+          <span class="id-label">COMPLAINT ID</span>
+          <div class="id-box" id="complaintIdDisplay">HC-2024-12345</div>
+        </div>
+
+        <!-- Complaint Summary -->
+        <div class="summary-card" id="submittedSummary">
+          <div class="summary-title" id="summaryTitle">Leaking washbasin tap</div>
+          <div class="summary-meta" id="summaryMeta">Plumbing • A Block • A-205</div>
+          <div class="summary-date" id="summaryDate">24 Oct 2024 • 09:30 AM</div>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-btns">
+          <button class="btn-primary" id="btnViewStatus" onclick="navigateTo('pageStatus')">VIEW COMPLAINT STATUS</button>
+          <button class="btn-outline" id="btnBackDash" onclick="navigateTo('pageDashboard')">BACK TO DASHBOARD</button>
+        </div>
+
+        <p class="footer-note">Status: Submitted • Next: Maintenance review</p>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: COMPLAINT STATUS ========== -->
+    <div class="page" id="pageStatus">
+      <header class="topbar topbar--inner">
+        <button class="back-btn" onclick="navigateTo('pageDashboard')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="topbar-title">Complaint Status</span>
+        <div></div>
+      </header>
+
+      <div class="page-scroll">
+        <!-- Complaint Header -->
+        <div class="status-header">
+          <div class="status-id-row">
+            <span class="complaint-id">HC-2024-12345</span>
+            <span class="status-badge status-submitted">Submitted</span>
+          </div>
+          <h2 class="status-complaint-title">Leaking washbasin tap</h2>
+          <p class="status-complaint-meta">Plumbing • A Block • A-205</p>
+        </div>
+
+        <!-- Description -->
+        <div class="detail-box">
+          <span class="detail-box-label">Description</span>
+          <p class="detail-box-text">The washbasin tap in room A-205 keeps dripping even when fully closed. Please repair it.</p>
+        </div>
+
+        <!-- Resolution Progress -->
+        <div class="progress-section">
+          <div class="progress-header">
+            <span class="progress-title">Resolution progress</span>
+            <span class="progress-step">1 of 4 stages</span>
+          </div>
+
+          <div class="progress-track">
+            <!-- Stage 1 -->
+            <div class="stage stage--done">
+              <div class="stage-dot stage-dot--done">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="stage-content">
+                <span class="stage-name">Submitted</span>
+                <span class="stage-time">24 Oct 2024 • 09:30 AM</span>
+              </div>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="stage stage--active">
+              <div class="stage-dot stage-dot--active"></div>
+              <div class="stage-content">
+                <span class="stage-name">Maintenance review</span>
+                <span class="stage-time stage-time--muted">Next • Awaiting review</span>
+              </div>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="stage stage--pending">
+              <div class="stage-dot stage-dot--pending"></div>
+              <div class="stage-content">
+                <span class="stage-name stage-name--muted">In progress</span>
+                <span class="stage-time stage-time--muted">Repair work not started</span>
+              </div>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="stage stage--pending stage--last">
+              <div class="stage-dot stage-dot--pending"></div>
+              <div class="stage-content">
+                <span class="stage-name stage-name--muted">Resolved</span>
+                <span class="stage-time stage-time--muted">Resolution pending</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Latest Update -->
+        <div class="update-box">
+          <span class="update-label">Latest update</span>
+          <p class="update-text">Complaint received. Maintenance review is the next stage; no further updates yet.</p>
+        </div>
+
+        <p class="footer-note" style="margin-bottom: 24px;">We'll notify you when status changes.</p>
+      </div>
+
+      <!-- Bottom Nav -->
+      <nav class="bottom-nav">
+        <button class="nav-item" onclick="setActiveNav('navHome'); navigateTo('pageDashboard')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item active" onclick="setActiveNav('navActivity'); navigateTo('pageActivity')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Activity</span>
+        </button>
+        <button class="nav-item" onclick="setActiveNav('navProfile'); navigateTo('pageProfile')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ========== PAGE: ACTIVITY ========== -->
+    <div class="page" id="pageActivity">
+      <header class="topbar topbar--inner">
+        <button class="back-btn" onclick="navigateTo('pageDashboard')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="topbar-title">Activity</span>
+        <div></div>
+      </header>
+
+      <div class="page-scroll">
+        <section class="greeting-section" style="padding-bottom:8px;">
+          <h2 class="form-title">All Complaints</h2>
+          <p class="greeting-sub">Track all your submitted requests.</p>
+        </section>
+
+        <div class="activity-list">
+          <div class="complaint-card complaint-card--full" onclick="navigateTo('pageStatus')">
+            <div class="complaint-card-top">
+              <span class="complaint-id">HC-2024-12345</span>
+              <span class="status-badge status-submitted">Submitted</span>
+            </div>
+            <div class="complaint-card-title">Leaking washbasin tap</div>
+            <div class="complaint-card-meta">Plumbing • A Block • A-205 • 24 Oct 2024</div>
+          </div>
+
+          <div class="complaint-card complaint-card--full">
+            <div class="complaint-card-top">
+              <span class="complaint-id">HC-2024-11980</span>
+              <span class="status-badge status-resolved">Resolved</span>
+            </div>
+            <div class="complaint-card-title">Fan not working in room</div>
+            <div class="complaint-card-meta">AC / Fan • A Block • A-205 • 10 Oct 2024</div>
+          </div>
+
+          <div class="complaint-card complaint-card--full">
+            <div class="complaint-card-top">
+              <span class="complaint-id">HC-2024-11542</span>
+              <span class="status-badge status-inprogress">In Progress</span>
+            </div>
+            <div class="complaint-card-title">Wi-Fi not connecting</div>
+            <div class="complaint-card-meta">Internet / Wi-Fi • A Block • A-205 • 01 Oct 2024</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="bottom-nav">
+        <button class="nav-item" onclick="setActiveNav('navHome'); navigateTo('pageDashboard')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item active">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Activity</span>
+        </button>
+        <button class="nav-item" onclick="setActiveNav('navProfile'); navigateTo('pageProfile')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ========== PAGE: PROFILE ========== -->
+    <div class="page" id="pageProfile">
+      <header class="topbar topbar--inner">
+        <button class="back-btn" onclick="navigateTo('pageDashboard')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="topbar-title">My Profile</span>
+        <div></div>
+      </header>
+
+      <div class="page-scroll">
+        <!-- Profile Card -->
+        <div class="profile-card">
+          <div class="profile-avatar-large">ST</div>
+          <div class="profile-name">Student Name</div>
+          <div class="profile-role-tag">Student</div>
+        </div>
+
+        <!-- Info Fields -->
+        <div class="profile-info-list">
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Full Name
+            </span>
+            <span class="profile-info-value">Rahul Sharma</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Roll Number
+            </span>
+            <span class="profile-info-value">21CS1045</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Hostel Block
+            </span>
+            <span class="profile-info-value">A Block</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Room Number
+            </span>
+            <span class="profile-info-value">A-205</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Email
+            </span>
+            <span class="profile-info-value">rahul@university.edu</span>
+          </div>
+          <div class="profile-info-item">
+            <span class="profile-info-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.31 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Phone
+            </span>
+            <span class="profile-info-value">+91 98765 43210</span>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Total Complaints</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">1</span>
+            <span class="stat-label">Resolved</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">2</span>
+            <span class="stat-label">Pending</span>
+          </div>
+        </div>
+
+        <button class="btn-outline btn-logout" id="btnLogout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+
+      <nav class="bottom-nav">
+        <button class="nav-item" onclick="setActiveNav('navHome'); navigateTo('pageDashboard')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="setActiveNav('navActivity'); navigateTo('pageActivity')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Activity</span>
+        </button>
+        <button class="nav-item active">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ========== PAGE: ILLUSTRATIVE ========== -->
+    <div class="page" id="pageIllustrative">
+      <header class="topbar topbar--inner">
+        <button class="back-btn" onclick="navigateTo('pageRegister')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="topbar-title">Example Complaints</span>
+        <div></div>
+      </header>
+      <div class="page-scroll">
+        <section class="greeting-section">
+          <h2 class="form-title">Illustrative Details</h2>
+          <p class="greeting-sub">Reference examples for complaint descriptions.</p>
+        </section>
+        <div class="illustrative-list">
+          <div class="illustrative-item" onclick="fillExample('Plumbing','The washbasin tap keeps dripping even when fully closed. Please repair it.')">
+            <div class="illus-icon">🔧</div>
+            <div class="illus-text">
+              <strong>Plumbing Issue</strong>
+              <p>Leaking taps, blocked drains, broken flush, pipe bursts.</p>
+            </div>
+          </div>
+          <div class="illustrative-item" onclick="fillExample('Electrical','The room power socket near the desk is not working. Please fix.')">
+            <div class="illus-icon">⚡</div>
+            <div class="illus-text">
+              <strong>Electrical Issue</strong>
+              <p>Non-functional sockets, flickering lights, trip switches.</p>
+            </div>
+          </div>
+          <div class="illustrative-item" onclick="fillExample('AC / Fan','The ceiling fan in the room wobbles dangerously. Please inspect and repair.')">
+            <div class="illus-icon">❄️</div>
+            <div class="illus-text">
+              <strong>AC / Fan Issue</strong>
+              <p>Fan not working, AC not cooling, unusual noises.</p>
+            </div>
+          </div>
+          <div class="illustrative-item" onclick="fillExample('Internet / Wi-Fi','The Wi-Fi connection drops repeatedly throughout the day in my room.')">
+            <div class="illus-icon">📶</div>
+            <div class="illus-text">
+              <strong>Internet / Wi-Fi</strong>
+              <p>No connectivity, frequent drops, slow speeds.</p>
+            </div>
+          </div>
+          <div class="illustrative-item" onclick="fillExample('Furniture','The study table chair is broken and unusable. Please replace it.')">
+            <div class="illus-icon">🪑</div>
+            <div class="illus-text">
+              <strong>Furniture Damage</strong>
+              <p>Broken chairs, damaged wardrobe, missing drawers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end app-shell -->
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
